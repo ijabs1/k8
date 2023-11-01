@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-deployment
+  namespace: codemasterapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: php
+  template:
+    metadata:
+      labels:
+        app: php
+    spec:
+      containers:
+      - name: php-container
+        image: asaoluolalekan1/olalekan:v1
+        ports:
+        - containerPort: 8080
+        env:
+        - name: db
+          value: db
+        - name: DB_USERNAME
+          value: admin
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-secrets
+              key: DB_PASSWORD
+
+
